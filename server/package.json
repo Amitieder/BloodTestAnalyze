@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.1066.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "string-similarity": "^4.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "scripts": {
+    "dev": "nodemon source/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
