@@ -1,10 +1,9 @@
-const express    = require('express');
-const cors       = require('cors');
+const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const bloodAnalyzeRouter = require('./bloodAnalyze/bloodAnalyzeRoute');
-
 const port = 3000;
-const app  = express();
+const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());

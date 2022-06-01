@@ -2,22 +2,22 @@
     <div class="app">
         <h1>Blood test analyze</h1>
         <form @submit.prevent="submit">
-        <div class="inputContainer">
-            <div class="p-float-label testTextContainer">
-                <InputText id="testText" type="text" pattern="[a-zA-Z0-9(),-:/! ]+" v-model="testText" required/>
-                <label for="testText">Test Name</label>
+            <div class="input-container">
+                <div class="p-float-label test-text-container">
+                    <InputText id="test-text" type="text" pattern="[a-zA-Z0-9(),-:/! ]+" v-model="testText" required/>
+                    <label for="test-text">Test Name</label>
+                </div>
+                <div class="p-float-label">
+                    <InputText id="test-value" type="number" v-model="testValue" required/>
+                    <label for="test-value">Test Result</label>
+                </div>
             </div>
-            <div class="p-float-label">
-                <InputText id="testValue" type="number" v-model="testValue" required/>
-                <label for="testValue">Test Result</label>
+            <Button type="submit" class="p-button-raised">Check result</Button>     
+            <div class="result-container">       
+                <h2>{{testResultName}}</h2>
+                <h2 v-if="testResultName">-</h2>
+                <h2>{{testResultEvaluation}}</h2>
             </div>
-        </div>
-        <Button type="submit" class="p-button-raised">Check result</Button>     
-        <div class="resultContainer">       
-            <h2>{{testResultName}}</h2>
-            <h2 v-if="testResultName">-</h2>
-            <h2>{{testResultEvaluation}}</h2>
-        </div>
         </form>
     </div>
 </template>
@@ -79,18 +79,18 @@
         color: rgb(189, 128, 208); 
     }
 
-    .inputContainer{
+    .input-container{
         display: flex;
         justify-content: center;
         padding: 3%;
     }
 
-    .resultContainer{
+    .result-container{
         display: flex;
         justify-content: center;
     }
 
-    .testTextContainer {
+    .test-text-container {
         padding-right: 30px;
     }
 

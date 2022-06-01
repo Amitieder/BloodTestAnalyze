@@ -1,14 +1,12 @@
-const https    = require('https');
-const aws      = require('aws-sdk');
+const https = require('https');
+const aws = require('aws-sdk');
 const { json } = require('express/lib/response');
 
 async function getBloodDataAsync() {
-
-    const myPromise = new Promise((resolve, reject) => {
             
-        let s3 = new aws.S3();
+        const s3 = new aws.S3();
 
-        let param = {
+        const param = {
             Bucket: 's3.helloheart.home.assignment',
             Key: 'bloodTestConfig.json'
         };
@@ -17,15 +15,19 @@ async function getBloodDataAsync() {
             region: 'US-EAST-1',
         });
 
+    const myPromise = new Promise((resolve, reject) => {
+
         s3.makeUnauthenticatedRequest('getObject',param, (err, data) => {
             if (!err) {
-                let bloodTests = JSON.parse(data.Body).bloodTestConfig;
+                const bloodTests = JSON.parse(data.Body).bloodTestConfig;
                 resolve(bloodTests);
             }
         });
     });
 
-    return myPromise;
+    const bloodTestsData = await myPromise;
+
+    return bloodTestsData;
 }
 
 module.exports = getBloodDataAsync;

@@ -1,10 +1,10 @@
-const express            = require('express');
+const express = require('express');
 const bloodAnalyzeRouter = express.Router();
-const getBloodTestData   = require('./bloodAnalyzeController');
+const getBloodMatchData = require('./bloodAnalyzeController');
 
 bloodAnalyzeRouter.post('/', async function (req, res) {
     let testText = req.body.testText;
-    let response = await getBloodTestData(testText);
+    let response = await getBloodMatchData(testText);
     res.send(response)
 });
 
