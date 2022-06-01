@@ -1,22 +1,22 @@
 <template>
     <div class="app">
-        <h1>Blood test analyze</h1>
+        <h1 class="app-title">Blood test analyze</h1>
         <form @submit.prevent="submit">
             <div class="input-container">
                 <div class="p-float-label test-text-container">
-                    <InputText id="test-text" type="text" pattern="[a-zA-Z0-9(),-:/! ]+" v-model="testText" required/>
+                    <InputText id="test-text" type="text" pattern="[a-zA-Z0-9(),-:/! ]+" v-model="name" required/>
                     <label for="test-text">Test Name</label>
                 </div>
                 <div class="p-float-label">
-                    <InputText id="test-value" type="number" v-model="testValue" required/>
+                    <InputText id="test-value" type="number" v-model="value" required/>
                     <label for="test-value">Test Result</label>
                 </div>
             </div>
             <Button type="submit" class="p-button-raised">Check result</Button>     
             <div class="result-container">       
-                <h2>{{testResultName}}</h2>
-                <h2 v-if="testResultName">-</h2>
-                <h2>{{testResultEvaluation}}</h2>
+                <h2>{{resultName}}</h2>
+                <h2 v-if="resultName">-</h2>
+                <h2>{{resultEvaluation}}</h2>
             </div>
         </form>
     </div>
@@ -26,20 +26,20 @@
     export default {
         data() {
             return {
-                testText: "",
-                testValue: null,
-                testResultEvaluation: "",
-                testResultName: ""
+                name: "",
+                value: null,
+                resultEvaluation: "",
+                resultName: ""
             }
         },
         methods: {
             initResult(data) {
-                if(data.matchedTreshold === -1) {
-                    this.testResultEvaluation = 'Unknown';
-                    this.testResultName = '';
+                if (data.treshold === -1) {
+                    this.resultEvaluation = 'Unknown';
+                    this.resultName = '';
                 } else {
-                    this.testResultEvaluation = this.testValue <= data.matchedTreshold ? 'Good!' : 'Bad!';
-                    this.testResultName = data.matchedTestName;
+                    this.resultEvaluation = this.value <= data.treshold ? 'Good!' : 'Bad!';
+                    this.resultName = data.testName;
                 }
             },
 
@@ -49,7 +49,7 @@
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ testText: this.testText })
+                    body: JSON.stringify({ testName: this.name })
                 });
             
                 if (res.ok) {
@@ -73,28 +73,24 @@
         font-family: Trebuchet MS !important;
     }
 
-    h1 { 
+    .app-title { 
         font-size: 50px; font-weight: bold; 
         letter-spacing: -1px; line-height: 1; 
         color: rgb(189, 128, 208); 
     }
 
-    .input-container{
+    .input-container {
         display: flex;
         justify-content: center;
         padding: 3%;
     }
 
-    .result-container{
+    .result-container {
         display: flex;
         justify-content: center;
     }
 
     .test-text-container {
         padding-right: 30px;
-    }
-
-    .h3 {
-        padding-top: 30px;
     }
 </style>

@@ -2,8 +2,7 @@ const https = require('https');
 const aws = require('aws-sdk');
 const { json } = require('express/lib/response');
 
-async function getBloodDataAsync() {
-            
+async function getBloodTestsAsync() {
         const s3 = new aws.S3();
 
         const param = {
@@ -15,19 +14,18 @@ async function getBloodDataAsync() {
             region: 'US-EAST-1',
         });
 
-    const myPromise = new Promise((resolve, reject) => {
-
+    const getBloodTestsPrmoise = new Promise((resolve, reject) => {
         s3.makeUnauthenticatedRequest('getObject',param, (err, data) => {
             if (!err) {
-                const bloodTests = JSON.parse(data.Body).bloodTestConfig;
-                resolve(bloodTests);
+                const result = JSON.parse(data.Body).bloodTestConfig;
+                resolve(result);
             }
         });
     });
 
-    const bloodTestsData = await myPromise;
+    const bloodTests = await getBloodTestsPrmoise;
 
-    return bloodTestsData;
+    return bloodTests;
 }
 
-module.exports = getBloodDataAsync;
+module.exports = getBloodTestsAsync;

@@ -1,36 +1,29 @@
-const getBloodDataAsync = require('./bloodAnalyzeModel');
+const getBloodTestsAsync = require('./bloodAnalyzeModel');
 const stringSimilarity = require("string-similarity");
 
-function getBloodMatchData(testText) {
-    let bestMatchedTestName = "";
-    let bestMatchedTreshold = -1;
+async function getBloodMatchDataAsync(testName) {
+    const result = {
+        testName: "", 
+        treshold: -1
+    }
 
-    const bloodData = getBloodDataAsync();
+    const bloodTests = await getBloodTestsAsync();
+    const testsNames = bloodTests.map(test => test.name.toUpperCase());
+    const testNameMatches = stringSimilarity.findBestMatch(testName.toUpperCase(), testsNames);
 
-    const testNames = bloodData.map( test => {
-        return test.name.toUpperCase();
-    });
+    const bestMatchRating = testNameMatches.bestMatch.rating;
 
-    const testMatches = stringSimilarity.findBestMatch(
-        testText.toUpperCase(),
-        testNames
+    const sameRatingMatches = testNameMatches.ratings.filter(match =>
+        match.rating === bestMatchRating
     );
 
-    const bestMatchRating = testMatches.bestMatch.rating;
-
-    const sameRating = testMatches.ratings.filter((match) =>
-        match.rating === bestMatchRating
-    )
-
-    if (bestMatchRating > 0 && sameRating.length === 1) {
-      const bestMatchedTest = bloodData[testMatches.bestMatchIndex];
-
-      bestMatchedTestName = bestMatchedTest.name;
-      bestMatchedTreshold = bestMatchedTest.threshold;
+    if (bestMatchRating > 0 && sameRatingMatches.length === 1) {
+      const bestMatchTest = bloodTests[testNameMatches.bestMatchIndex];
+      result.testName = bestMatchTest.name;
+      result.treshold = bestMatchTest.threshold;
     } 
 
-    return { matchedTestName: bestMatchedTestName, 
-             matchedTreshold: bestMatchedTreshold }
+    return result;
 }
 
-module.exports = getBloodMatchData;
+module.exports = getBloodMatchDataAsync;
