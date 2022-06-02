@@ -10,9 +10,8 @@ async function getBloodMatchDataAsync(testName) {
     const bloodTests = await getBloodTestsAsync();
     const testsNames = bloodTests.map(test => test.name.toUpperCase());
     const testNameMatches = stringSimilarity.findBestMatch(testName.toUpperCase(), testsNames);
-
     const bestMatchRating = testNameMatches.bestMatch.rating;
-
+    
     const sameRatingMatches = testNameMatches.ratings.filter(match =>
         match.rating === bestMatchRating
     );

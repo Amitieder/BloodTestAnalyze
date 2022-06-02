@@ -3,8 +3,8 @@ const bloodAnalyzeRouter = express.Router();
 const getBloodMatchDataAsync = require('./bloodAnalyzeController');
 
 bloodAnalyzeRouter.post('/', async function (req, res) {
-    let testName = req.body.testName;
-    let response = await getBloodMatchDataAsync(testName);
+    const testName = req.body.testName;
+    const response = await getBloodMatchDataAsync(testName);
     res.send(response)  
 });
 
